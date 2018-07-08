@@ -36,9 +36,22 @@ def decorate(cls, src = None, attrs = None):
     """
     This is where the class is actually modified.
     """
+    if not (src and attrs) and hasattr(cls, 'delegate'):
+        if isinstance(cls.delegate, tuple):
+            src, attrs = cls.delegate[0], cls.delegate[1:]
+
+        elif isinstance(cls.delegate, str):
+            delegate = cls.delegate.split(' ')
+            src, attrs = delegate[0], delegate[1:]
+
     if src and attrs:
         for attr in attrs:
             setattr(cls, attr, Delegated(src, attr))
+    else:
+        raise ValueError(
+            "Invalid arguments to 'decorate': %s, %s" % (src, attrs)
+        )
+
     return cls
 
 
@@ -48,9 +61,16 @@ def delegator(cls):
 
 class delegate(object):
     def __init__(self, src, *attrs):
-        # TODO: Validate
-        self.src = src
-        self.attrs = attrs
+        if src and attrs:
+            self.src = src
+            self.attrs = attrs
+        elif src and isinstance(src, str):
+            delegate = src.split(' ')
+            self.src, self.attrs = delegate[0], delegate[1:]
+        else:
+            raise ValueError(
+                "Invalid arguments to 'delegate': %s, %s" % (src, attrs)
+            )
 
     def __call__(self, cls):
         return decorate(cls, self.src, self.attrs)
