@@ -4,13 +4,24 @@
 
     Similar to `def_delegator` in Ruby, allows to forward/delegate attributes
     and methods to some attribute on the object. Supports setting and deleting.
+
+    User-interface consists of:
+
+        - `delegate` class decorator
+        - `delegator` class decorator
+        - `Delegator` metaclass
+
+    All methods are interchangeable. `delegate` requires passing arguments
+    directly, wheares `delegator` and `Delegator` read configuration from
+    `delegate` attribute on the target class. For examples see `tests.py`.
 """
 
 
 class Delegated(object):
     """
     Your typical, run-of-the-mill attribute accessor.
-    Forwards access to attribute <attr_name> to <del_name> on the owner.
+    Forwards access to attribute <attr_name> from owner to <del_name>
+    attribute on the owner.
     """
     def __init__(self, name, attr):
         self.attr_name = attr
