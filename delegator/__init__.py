@@ -17,6 +17,7 @@ __version__ = '0.1.0'
     directly, wheares `delegator` and `Delegator` read configuration from
     `delegate` attribute on the target class. For examples see `tests.py`.
 """
+from typing import Any, Union, Type, Sequence
 
 
 class Delegated(object):
@@ -25,27 +26,27 @@ class Delegated(object):
     Forwards access to attribute <attr_name> from owner to <del_name>
     attribute on the owner.
     """
-    def __init__(self, name, attr):
+    def __init__(self, name: str, attr: str) -> None:
         self.attr_name = attr
         self.del_name = name
 
-    def __get__(self, instance, owner):
+    def __get__(self, instance: str, owner: object) -> Any:
         if instance is None:
             return self
         else:
             return getattr(self.delegate(instance), self.attr_name)
 
-    def __set__(self, instance, value):
+    def __set__(self, instance: str, value: Any) -> None:
         setattr(self.delegate(instance), self.attr_name, value)
 
-    def __delete__(self, instance):
+    def __delete__(self, instance: str) -> None:
         delattr(self.delegate(instance), self.attr_name)
 
-    def delegate(self, instance):
+    def delegate(self, instance: str) -> Any:
         return getattr(instance, self.del_name)
 
 
-def decorate(cls, src = None, attrs = None):
+def decorate(cls, src: str = None, attrs: Sequence[str] = None) -> Type:
     """
     This is where the class is actually modified.
     """
@@ -68,12 +69,15 @@ def decorate(cls, src = None, attrs = None):
     return cls
 
 
-def delegator(cls):
+def delegator(cls: Type) -> Type:
     return decorate(cls)
 
 
 class delegate(object):
-    def __init__(self, src, *attrs):
+    def __init__(self, src: str, *attrs: str) -> None:
+        self.src: str
+        self.attrs: Sequence[str]
+
         if src and attrs:
             self.src = src
             self.attrs = attrs
@@ -85,10 +89,10 @@ class delegate(object):
                 "Invalid arguments to 'delegate': %s, %s" % (src, attrs)
             )
 
-    def __call__(self, cls):
+    def __call__(self, cls: Type) -> Type:
         return decorate(cls, self.src, self.attrs)
 
 
 class Delegator(type):
-    def __new__(*args, **kwargs):
+    def __new__(*args: Sequence, **kwargs: Sequence):
         return decorate(type.__new__(*args, **kwargs))
