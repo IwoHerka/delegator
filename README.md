@@ -52,3 +52,17 @@ foo.spam
 ```
 
 For more details, see `decorate ` and `Delegated` in the source code. For more examples, check out `tests.py`.
+
+### Installation
+
+You can get it from PyPI:
+
+```bash
+pip install dele-gator # delegator was taken
+```
+
+Or install directly from GitHub:
+
+```bash
+pip install git+https://github.com/IwoHerka/delegator@master
+```
