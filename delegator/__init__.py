@@ -50,12 +50,14 @@ def decorate(cls, src: str = None, attrs: Sequence[str] = None) -> Type:
     """
     This is where the class is actually modified. Each delegated attribute is
     subsituted on the owner class with attribute accessor object (see
-    `Delegated`). By default, `decorate` expects attribute and delegatee
-    to be specified in the arguments. If arguments are not given, method checks
-    for "delegate" attribute on the class and tries to read missing arguments
-    from its value. "delegate" can be a sequence or a single string with
-    arguments separated by whitespace (similar to `namedtuple` syntax).
-    Delegatee must always be the first argument. For example:
+    `Delegated`).
+
+    By default, `decorate` expects attribute and delegatee to be specified in
+    the arguments. If arguments are not given, method checks for "delegate"
+    attribute on the class and tries to read missing arguments from its value.
+    "delegate" can be a sequence or a single string with arguments separated by
+    whitespace (similar to `namedtuple` syntax). Delegatee must always be the
+    first argument. For example:
 
         delegate = 'attr spam ham eggs'
 
@@ -101,8 +103,8 @@ class delegate(object):
     sequence specifying delegatee and delegated attributes.
     """
     def __init__(self, src: str, *attrs: str) -> None:
-        self.src: str
-        self.attrs: Sequence[str]
+        # self.src: str
+        # self.attrs: Sequence[str]
 
         if src and attrs:
             self.src = src

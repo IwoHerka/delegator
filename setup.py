@@ -5,7 +5,7 @@ setuptools.setup(
     name             = 'delegator',
     version          = delegator.__version__,
     license          = 'MIT',
-    requires         = ['python (>= 2.7)'],
+    requires         = ['python (>= 3.5)'],
     provides         = ['delegator'],
     description      = 'delegator is a micro-package for defining delegated methods and attributes.',
     url              = 'http://github.com/IwoHerka/delegator',
