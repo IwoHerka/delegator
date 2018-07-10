@@ -2,7 +2,7 @@ import setuptools
 import delegator
 
 setuptools.setup(
-    name             = 'delegator',
+    name             = 'dele-gator',
     version          = delegator.__version__,
     license          = 'MIT',
     requires         = ['python (>= 3.5)'],
